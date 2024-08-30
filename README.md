@@ -125,6 +125,13 @@ export default function Page() {
 
 ## 7. Fetching Data
 
+获取数据的方法：API（[路由处理程序](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)）、ORM（Prisma）、SQL 等
+
+使用 Server Components 获取数据
+- 支持 promises，无需使用 useEffect、useState 或数据获取库。
+- Server Components 在服务器上执行，因此你可以将昂贵的数据获取和逻辑保留在服务器上，并仅将结果发送到客户端。
+
+
 ## 8. Static and Dynamic Rendering
 
 ## 9. Streaming
