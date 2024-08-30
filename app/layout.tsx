@@ -1,4 +1,7 @@
 
+// 添加全局 CSS 文件
+import './ui/global.css'
+
 export default function RootLayout({
   children,
 }: {
