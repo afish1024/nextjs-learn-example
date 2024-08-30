@@ -118,6 +118,11 @@ export default function Page() {
 
 ## 6. Setting Up Your Database
 
+创建 Postgres 数据库并填充数据
+
+跳转路由 `localhost:3000/send` 执行方法，填充数据库数据，之后再把响应代码删除
+
+
 ## 7. Fetching Data
 
 ## 8. Static and Dynamic Rendering
