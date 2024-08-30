@@ -83,6 +83,11 @@ export default Page() {
 
 ## 4. Creating Layouts and Pages
 
+Next.js 的特殊文件：
+
+- `page.tsx` 导出一个 React 组件，生成一个有效的路由访问
+- `layout.tsx` 提供页面之间共享的嵌套布局，在导航时，只有页面组件会更新，而布局组件不会重新渲染（局部渲染）
+
 ## 5. Navigating Between Page
 
 ## 6. Setting Up Your Database
