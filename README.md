@@ -144,6 +144,13 @@ export default function Page() {
 
 ## 9. Streaming
 
+实现流式传输的方式：
+
+- 页面级别，使用 `loading.tsx` 文件
+- 对于特定组件，使用 `<Suspense>`
+
+`()` 创建新文件夹时，路由组允许您将文件组织成逻辑组，而不影响 URL 路径结构。
+
 ## 10. Partial Prerendering
 
 ## 11. Adding Search and Pagination
