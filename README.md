@@ -90,6 +90,32 @@ Next.js 的特殊文件：
 
 ## 5. Navigating Between Page
 
+`<Link>` 组件，允许使用 JavaScript 进行客户端导航，只会有局部的刷新。`<a>` HTML 元素在页面导航时，会导致整个页面刷新
+
+Next.js 会自动按路由段拆分您的应用程序
+
+在生产环节，每当 `<Link>` 组件出现在浏览器视口中时，Next.js 会自动预加载链接路由的代码。
+
+```ts
+'use client'; // usePathname() 是 hooks 需要转为客户端组件
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import clsx from 'clsx';
+
+export default function Page() {
+    // 获取当前活动的路由
+    const pathname = usePathname()
+
+    return (
+        <Link 
+            href="/active"
+            className={ 'bg-sky-100': pathname === "/active" }
+        />
+    )
+}
+```
+
 ## 6. Setting Up Your Database
 
 ## 7. Fetching Data
