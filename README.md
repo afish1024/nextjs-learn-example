@@ -131,8 +131,16 @@ export default function Page() {
 - 支持 promises，无需使用 useEffect、useState 或数据获取库。
 - Server Components 在服务器上执行，因此你可以将昂贵的数据获取和逻辑保留在服务器上，并仅将结果发送到客户端。
 
-
 ## 8. Static and Dynamic Rendering
+
+之前的 Dashboard 是静态的，因此任何数据更新都不会反映在您的应用程序上。
+
+使 Dashboard 动态化：
+
+- `next/cache` 的 `unstable_noStore`，在数据获取函数的顶部调用
+- Segment 配置选项，`export const dynamic = "force-dynamic"`
+
+**使用动态渲染，您的应用程序速度只有在最慢的数据获取完成时才能达到**。
 
 ## 9. Streaming
 
