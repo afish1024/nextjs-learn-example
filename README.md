@@ -174,6 +174,31 @@ PPR
 
 ## 12. Mutating Data
 
+使用 Server Action 添加、修改、删除数据
+
+**React Server Actions 允许您在服务器上直接执行异步代码，操作数据库**
+
+通过在 `<form>` 元素中使用 `action` 属性调用操作，实现 Server Action，
+```ts
+// Server Component
+export default function Page() {
+  // Action，自动接收包含捕获数据的原生 FormData 对象
+  async function create(formData: FormData) {
+    'use server';
+ 
+    // Logic to mutate data...
+  }
+ 
+  // Invoke the action using the "action" attribute
+  return <form action={create}>...</form>;
+}
+```
+
+Server Actions 提供了有效的 Web 安全解决方案： POST 请求、加密闭包、严格的输入检查、错误消息 hashing 和主机限制等技术实现
+
+Server Actions 与 Next.js 缓存深度集成。通过 Server Action 提交表单时，您不仅可以使用该操作来改变数据，还可以使用 `revalidatePath` 和 `revalidateTag` 等 API 来重新验证相关的缓存。
+
+
 ## 13. Handling Errors
 
 ## 14. Improving Accessibility
