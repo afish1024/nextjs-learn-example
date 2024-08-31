@@ -5,13 +5,13 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-const FormSchema = z.object({
-    id: z.string(),
-    customerId: z.string(),
-    amount: z.coerce.number(),
-    status: z.enum(['pending', 'paid']),
-    date: z.string(),
-})
+// const FormSchema = z.object({
+//     id: z.string(),
+//     customerId: z.string(),
+//     amount: z.coerce.number(),
+//     status: z.enum(['pending', 'paid']),
+//     date: z.string(),
+// })
 
 // export async function createInvoice(formData: FormData) {
 //     const rawFormData = {
@@ -23,18 +23,59 @@ const FormSchema = z.object({
 //     console.log(rawFormData)
 // }
 
+const FormSchema = z.object({
+    id: z.string(),
+    // 如果 customer 字段为空，Zod 会抛出一个错误，因为它期望是一个 string 类型
+    // 添加一条友好的提示消息，以防用户没有选择 customer
+    customerId: z.string({
+      invalid_type_error: 'Please select a customer.',
+    }),
+    // 将 amount 类型从 string 强制转换为 number，如果字符串为空，则默认为零。
+    // 使用 .gt() 函数告诉 Zod 我们始终希望 amount 大于 0。
+    amount: z.coerce
+      .number()
+      .gt(0, { message: 'Please enter an amount greater than $0.' }),
+    // 如果 status 字段为空，Zod 会抛出一个错误，因为它期望是 "pending" 或 "paid"
+    // 添加一条友好的提示消息，以防用户没有选择 status
+    status: z.enum(['pending', 'paid'], {
+      invalid_type_error: 'Please select an invoice status.',
+    }),
+    date: z.string(),
+  });
+
 // Use Zod to update the expected types
 const CreateInvoice = FormSchema.omit({ id: true, date: true })
 
+// This is temporary until @types/react-dom is updated
+export type State = {
+    errors?: {
+      customerId?: string[];
+      amount?: string[];
+      status?: string[];
+    };
+    message?: string | null;
+  };
+
 // Server Action，可在 <form> action 中调用
-export async function createInvoice(formData: FormData) {
+// prevState - 包含从 useFormState hook 传递的状态。
+export async function createInvoice(preState: State, formData: FormData) {
     // 从 formData 对象中提取数据
     // 验证和准备要出阿茹数据库的数据
-    const { customerId, amount, status } = CreateInvoice.parse({
+    // safeParse() 将返回一个包含 success 或 error 字段的对象。这将有助于更优雅地处理验证，而无需将此逻辑放在 try/catch 块中。
+    const validatedFields = CreateInvoice.safeParse({
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
         status: formData.get('status'),
     })
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Create Invoice.',
+        };
+    }
+    const { customerId, amount, status } = validatedFields.data;
     const amountInCents = amount * 100; // 转为分
     const date = new Date().toISOString().split('T')[0] // 日期格式为 "YYYY-MM-DD" 的日期
 
@@ -59,12 +100,21 @@ export async function createInvoice(formData: FormData) {
 // Use Zod to update the expected types
 const UpdateInvoice = FormSchema.omit({ id: true, date: true })
 
-export async function updateInvoice(id: string, formData: FormData) {
-    const { customerId, amount, status } = UpdateInvoice.parse({
+export async function updateInvoice(id: string, preState: State, formData: FormData) {
+    const validatedFields = UpdateInvoice.safeParse({
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
         status: formData.get('status'),
-    });
+      });
+     
+      if (!validatedFields.success) {
+        return {
+          errors: validatedFields.error.flatten().fieldErrors,
+          message: 'Missing Fields. Failed to Update Invoice.',
+        };
+      }
+     
+      const { customerId, amount, status } = validatedFields.data;
 
     const amountInCents = amount * 100;
 

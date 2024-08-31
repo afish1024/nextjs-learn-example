@@ -214,6 +214,15 @@ Server Actions 与 Next.js 缓存深度集成。通过 Server Action 提交表�
 
 ## 14. Improving Accessibility
 
+`eslint-plugin-jsx-a11y` 插件，以帮助早发现可访问性问题。例如，该插件会在没有 alt 文本的图像、错误使用 aria-* 和 role 属性等情况下发出警告。
+
+form 验证：
+- 客户端验证：`<input required ... />` 再次提交 form，如果尝试提交带有空值的 form，您现在应该会看到浏览器发出的警告。
+- 服务端验证：使用 `react-dom` 的 `useFormState` hook
+    - 确保数据发送到数据库之前是预期的格式。
+    - 减少恶意用户绕过客户端验证的风险。
+    - 拥有一个被认为是有效数据的真实来源。
+
 ## 15. Adding Authentication
 
 ## 16. Adding Metadata
