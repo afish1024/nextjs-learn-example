@@ -198,8 +198,19 @@ Server Actions 提供了有效的 Web 安全解决方案： POST 请求、加密
 
 Server Actions 与 Next.js 缓存深度集成。通过 Server Action 提交表单时，您不仅可以使用该操作来改变数据，还可以使用 `revalidatePath` 和 `revalidateTag` 等 API 来重新验证相关的缓存。
 
-
 ## 13. Handling Errors
+
+处理错误的方式：
+
+- 为 Server Action 添加 try/catch
+
+- `error.tsx` 文件可用于为路由段定义 UI 边界。它用作意外错误的综合处理并允许您向用户显示备用 UI。
+    - 作为客户端组件，需要 'use client'
+    - 接受参数：`error` 原生 Errr 对象实例, `reset` 重置错误边界函数，调用时将尝试重新渲染路由段
+
+- 使用 `notFound` 函数处理 404 错误，展示 `not-found.tsx` 内容
+
+`notFound` 会优先于 `error.tsx`
 
 ## 14. Improving Accessibility
 
