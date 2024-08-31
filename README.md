@@ -153,6 +153,8 @@ export default function Page() {
 
 ## 10. Partial Prerendering
 
+PPR
+
 ## 11. Adding Search and Pagination
 
 ## 12. Mutating Data
