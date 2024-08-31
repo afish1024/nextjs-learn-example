@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 // const FormSchema = z.object({
 //     id: z.string(),
@@ -28,20 +30,20 @@ const FormSchema = z.object({
     // 如果 customer 字段为空，Zod 会抛出一个错误，因为它期望是一个 string 类型
     // 添加一条友好的提示消息，以防用户没有选择 customer
     customerId: z.string({
-      invalid_type_error: 'Please select a customer.',
+        invalid_type_error: 'Please select a customer.',
     }),
     // 将 amount 类型从 string 强制转换为 number，如果字符串为空，则默认为零。
     // 使用 .gt() 函数告诉 Zod 我们始终希望 amount 大于 0。
     amount: z.coerce
-      .number()
-      .gt(0, { message: 'Please enter an amount greater than $0.' }),
+        .number()
+        .gt(0, { message: 'Please enter an amount greater than $0.' }),
     // 如果 status 字段为空，Zod 会抛出一个错误，因为它期望是 "pending" 或 "paid"
     // 添加一条友好的提示消息，以防用户没有选择 status
     status: z.enum(['pending', 'paid'], {
-      invalid_type_error: 'Please select an invoice status.',
+        invalid_type_error: 'Please select an invoice status.',
     }),
     date: z.string(),
-  });
+});
 
 // Use Zod to update the expected types
 const CreateInvoice = FormSchema.omit({ id: true, date: true })
@@ -49,12 +51,12 @@ const CreateInvoice = FormSchema.omit({ id: true, date: true })
 // This is temporary until @types/react-dom is updated
 export type State = {
     errors?: {
-      customerId?: string[];
-      amount?: string[];
-      status?: string[];
+        customerId?: string[];
+        amount?: string[];
+        status?: string[];
     };
     message?: string | null;
-  };
+};
 
 // Server Action，可在 <form> action 中调用
 // prevState - 包含从 useFormState hook 传递的状态。
@@ -105,16 +107,16 @@ export async function updateInvoice(id: string, preState: State, formData: FormD
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
         status: formData.get('status'),
-      });
-     
-      if (!validatedFields.success) {
+    });
+
+    if (!validatedFields.success) {
         return {
-          errors: validatedFields.error.flatten().fieldErrors,
-          message: 'Missing Fields. Failed to Update Invoice.',
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Update Invoice.',
         };
-      }
-     
-      const { customerId, amount, status } = validatedFields.data;
+    }
+
+    const { customerId, amount, status } = validatedFields.data;
 
     const amountInCents = amount * 100;
 
@@ -143,4 +145,24 @@ export async function deleteInvoice(id: string) {
         return { message: 'Database Error: Failed to Delete Invoice.' };
     }
 
+}
+
+// 将身份验证逻辑与登录 form 连接起来
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+) {
+    try {
+        await signIn('credentials', formData);
+    } catch (error) {
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case 'CredentialsSignin':
+                    return 'Invalid credentials.';
+                default:
+                    return 'Something went wrong.';
+            }
+        }
+        throw error;
+    }
 }

@@ -225,4 +225,11 @@ form 验证：
 
 ## 15. Adding Authentication
 
+为你的应用程序生成一个密钥。该密钥用于加密 cookie，确保用户会话的安全性。你可以通过在终端中运行以下命令来完成：
+```bash
+# 生成密钥
+openssl rand -base64 32
+# 然后将密钥加入到 .env 的 AUTH_SECRET 
+```
+
 ## 16. Adding Metadata

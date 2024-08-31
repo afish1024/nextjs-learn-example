@@ -17,6 +17,8 @@ async function seedUsers() {
 
   const insertedUsers = await Promise.all(
     users.map(async (user) => {
+      // 将密码存储到数据库之前，对密码进行哈希处理
+      // 哈希将密码转换为一串固定长度的字符，看起来是随机的，即使用户的数据被曝露，也提供了一层安全性。
       const hashedPassword = await bcrypt.hash(user.password, 10);
       return client.sql`
         INSERT INTO users (id, name, email, password)
