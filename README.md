@@ -1,8 +1,11 @@
-## Nextjs Learn Example
+# Nextjs Learn Example
 
 对应 [nextjs-learn-cn](https://nextjs-learn-cn.itbox.fun) 文档的代码实践
 
+
 ## 1. Getting Started
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/2a8f34e9e4b45fc47c9e341c870c011f8acd90a2)
 
 ```bash
 # 创建新项目
@@ -10,6 +13,8 @@ npx create-next-app@latest nextjs-dashboard --use-npm --example "https://github.
 ```
 
 ## 2. CSS Styling
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/51b38d18a1d47fbf82f353df18dbbcaa5e412d8b)
 
 Next.js 支持的样式设置方案:
 
@@ -40,6 +45,8 @@ export default function InvoiceStatus({ status }: { status: string }) {
 ```
 
 ## 3. Optimizing Fonts and Images
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/433fafd14f26e3cc03bc0c040aeeeb3038449df5)
 
 添加优化的字体：
 
@@ -83,12 +90,16 @@ export default Page() {
 
 ## 4. Creating Layouts and Pages
 
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/1c67948418af01317acc5cc78b32b0928eacf0ed)
+
 Next.js 的特殊文件：
 
 - `page.tsx` 导出一个 React 组件，生成一个有效的路由访问
 - `layout.tsx` 提供页面之间共享的嵌套布局，在导航时，只有页面组件会更新，而布局组件不会重新渲染（局部渲染）
 
 ## 5. Navigating Between Page
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/5df279f8e791e73c542886cd62a55f561ffe155b)
 
 `<Link>` 组件，允许使用 JavaScript 进行客户端导航，只会有局部的刷新。`<a>` HTML 元素在页面导航时，会导致整个页面刷新
 
@@ -118,12 +129,16 @@ export default function Page() {
 
 ## 6. Setting Up Your Database
 
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/17c6287e360e27ef5ae3b5307446b7cbfe1aef94)
+
 创建 Postgres 数据库并填充数据
 
 跳转路由 `localhost:3000/send` 执行方法，填充数据库数据，之后再把响应代码删除
 
 
 ## 7. Fetching Data
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/1c666ee8cd3c85a4ce98ce6f63e98c10787f79db)
 
 获取数据的方法：API（[路由处理程序](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)）、ORM（Prisma）、SQL 等
 
@@ -132,6 +147,8 @@ export default function Page() {
 - Server Components 在服务器上执行，因此你可以将昂贵的数据获取和逻辑保留在服务器上，并仅将结果发送到客户端。
 
 ## 8. Static and Dynamic Rendering
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/3560b6fcfb8848c052724fc15ed99e2f20c0bc5d)
 
 之前的 Dashboard 是静态的，因此任何数据更新都不会反映在您的应用程序上。
 
@@ -144,6 +161,8 @@ export default function Page() {
 
 ## 9. Streaming
 
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/e5a4d9f3840380d7c0c8d32daf60be2162e7919e)
+
 实现流式传输的方式：
 
 - 页面级别，使用 `loading.tsx` 文件
@@ -153,9 +172,13 @@ export default function Page() {
 
 ## 10. Partial Prerendering
 
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/1ca8600cafed87ecff023afbb1c00bc4e0ea73d6)
+
 PPR
 
 ## 11. Adding Search and Pagination
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/ed9463c6379b859a7155e3ba289ab74d49424419)
 
 使用 URL 参数实现搜索的好处：
 
@@ -173,6 +196,8 @@ PPR
 
 
 ## 12. Mutating Data
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/d29ffd127015f237419ab22666d2fd60037a0e8e)
 
 使用 Server Action 添加、修改、删除数据
 
@@ -200,6 +225,8 @@ Server Actions 与 Next.js 缓存深度集成。通过 Server Action 提交表�
 
 ## 13. Handling Errors
 
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/bf30776bab0f636be63f508bd259259043b92f17)
+
 处理错误的方式：
 
 - 为 Server Action 添加 try/catch
@@ -214,6 +241,8 @@ Server Actions 与 Next.js 缓存深度集成。通过 Server Action 提交表�
 
 ## 14. Improving Accessibility
 
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/417595bda25d478b9423ef566ea5c3c9e616e103)
+
 `eslint-plugin-jsx-a11y` 插件，以帮助早发现可访问性问题。例如，该插件会在没有 alt 文本的图像、错误使用 aria-* 和 role 属性等情况下发出警告。
 
 form 验证：
@@ -225,6 +254,8 @@ form 验证：
 
 ## 15. Adding Authentication
 
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/fd2bca479c087d1f773180b8776928446a4f0a83)
+
 为你的应用程序生成一个密钥。该密钥用于加密 cookie，确保用户会话的安全性。你可以通过在终端中运行以下命令来完成：
 ```bash
 # 生成密钥
@@ -233,6 +264,8 @@ openssl rand -base64 32
 ```
 
 ## 16. Adding Metadata
+
+[相关代码](https://github.com/afish1024/nextjs-learn-example/commit/ea67eb20b634f2ffe14f13c3a4d18125f77d7f74)
 
 元数据对于 SEO 和可共享性至关重要
 
